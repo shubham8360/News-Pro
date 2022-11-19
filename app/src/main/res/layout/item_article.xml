@@ -10,6 +10,8 @@
         android:layout_width="160dp"
         android:layout_height="90dp"
         android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/tvSource"
+        app:layout_constraintEnd_toStartOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -24,12 +26,14 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvSource"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textSize="@dimen/_12sdp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:text="@string/source"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintBottom_toTopOf="@id/tvPublishedAt"
+        app:layout_constraintEnd_toEndOf="@id/ivArticleImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivArticleImage" />
 
@@ -44,6 +48,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textSize="15sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/tvDescription"
         app:layout_constraintLeft_toRightOf="@+id/ivArticleImage"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,24 +56,27 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvDescription"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:ellipsize="end"
-        android:maxLines="5"
+        android:maxLines="4"
         android:text="@string/description"
+        app:layout_constraintBottom_toBottomOf="@id/tvPublishedAt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivArticleImage"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvPublishedAt"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textSize="@dimen/_10sdp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:text="@string/published_at"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ivArticleImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvSource" />
 </androidx.constraintlayout.widget.ConstraintLayout>

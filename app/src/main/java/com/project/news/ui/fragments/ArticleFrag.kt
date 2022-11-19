@@ -11,7 +11,7 @@ import com.project.news.databinding.FragmentArticleBinding
 import com.project.news.ui.activity.MainActivity
 import com.project.news.ui.fragments.base.BaseFragment
 
-/*
+/**
  * Loads article on webView from news url<field in Article> .
  * on saving article it will insert data in room database <article_db.db> .
 */
@@ -21,7 +21,8 @@ class ArticleFrag : BaseFragment(R.layout.fragment_article) {
 
     override fun onStart() {
         super.onStart()
-        val btmNav = (requireActivity() as MainActivity).findViewById<BottomNavigationView>(R.id.btm_nav)
+        val btmNav =
+            (requireActivity() as MainActivity).findViewById<BottomNavigationView>(R.id.btm_nav)
         btmNav.visibility = View.GONE
     }
 
@@ -36,7 +37,12 @@ class ArticleFrag : BaseFragment(R.layout.fragment_article) {
 
         binding.fab.setOnClickListener {
             newsViewModel.saveNews(article)
-            Snackbar.make(binding.fab, getString(R.string.saved_success_message), Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(
+                binding.fab,
+                getString(R.string.saved_success_message),
+                Snackbar.LENGTH_SHORT
+            ).show()
+
         }
     }
 

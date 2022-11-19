@@ -15,7 +15,7 @@ import com.project.news.databinding.FragmentSavedNewsBinding
 import com.project.news.ui.fragments.base.BaseFragment
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
-/*
+/**
 * Fetches and List all article from room database <article_db.db> to recyclerview.
 * ItemTouchHelperCallback is used to provide swipe gesture for deletion from database.
 * On swipe, it shows delete icon, for that third party library is used https://github.com/xabaras/RecyclerViewSwipeDecorator .
