@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.project.news.repository.NewsRepository
 
-/*
-* Instance of repository is passed as parameter to access all methods related to dao and api.
+/**
+* Instance of repository is passed as parameter to access all methods related to Dao and api.
 * We can not pass data to ViewModel Class in its constructor directly, For that ViewModelProviderFactory is used.
 */
 
