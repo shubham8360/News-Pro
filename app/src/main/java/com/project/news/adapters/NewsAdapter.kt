@@ -14,12 +14,13 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.project.news.databinding.ItemArticleBinding
 import com.project.news.models.Article
+import javax.inject.Inject
 
-/*
+/**
 * Common recycler view implemented with diffUtil , to list breaking news, saved news, search news.
 */
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter @Inject constructor() : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
     inner class ArticleViewHolder(val binding: ItemArticleBinding) : RecyclerView.ViewHolder(binding.root) {
         init {

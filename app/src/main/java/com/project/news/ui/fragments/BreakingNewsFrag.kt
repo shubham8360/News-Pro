@@ -17,8 +17,8 @@ import com.project.news.databinding.FragmentBreakingNewsBinding
 import com.project.news.ui.fragments.base.BaseFragment
 
 /**
-* Fetches and list top 20 news from first page, on scroll fetches again 20 news from next page, pagination concept implemented.
-*/
+ * Fetches and list top 20 news from first page, on scroll fetches again 20 news from next page, pagination concept implemented.
+ */
 class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
 
     private lateinit var binding: FragmentBreakingNewsBinding
@@ -59,13 +59,19 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
 
     private fun setUpRecyclerView() {
         binding.rv.adapter = adapter
-        binding.rv.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        binding.rv.addOnScrollListener(this@BreakingNewsFrag.scrollListener)
+        binding.rv.apply {
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+            addOnScrollListener(this@BreakingNewsFrag.scrollListener)
+        }
         adapter.onItemClickListener = {
             val action = BreakingNewsFragDirections.actionBreakingNewsFragToArticleFrag(it)
             findNavController().navigate(action)
         }
-
     }
 
     private fun showProgress() {
@@ -89,6 +95,7 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
                 isScrolling = true
             }
         }
+
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             val layoutManager = binding.rv.layoutManager as LinearLayoutManager
@@ -101,7 +108,8 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
 
-            val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
+            val shouldPaginate =
+                isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
                 newsViewModel.loadBreakingNews(COUNTRY_CODE_CONST)
                 isScrolling = false

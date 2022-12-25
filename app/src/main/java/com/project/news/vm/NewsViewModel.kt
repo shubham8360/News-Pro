@@ -12,9 +12,11 @@ import com.project.news.constants.Resource
 import com.project.news.models.Article
 import com.project.news.models.NewsResponse
 import com.project.news.repository.NewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.Response
+import javax.inject.Inject
 
 /**
 * Instead of ViewModel() extend with AndroidViewModel which is extended version that can hold applicationContext.
@@ -24,8 +26,8 @@ import retrofit2.Response
  code by shubham kumar
 * */
 
-
-class NewsViewModel(app: Application, private val newsRepository: NewsRepository) : AndroidViewModel(app) {
+@HiltViewModel
+class NewsViewModel @Inject constructor(app: Application, private val newsRepository: NewsRepository) : AndroidViewModel(app) {
 
     private val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     fun getBreakingNews() = breakingNews

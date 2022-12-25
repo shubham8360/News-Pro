@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -91,5 +92,8 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottie_version"
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
+    //hilt-dagger
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
 
 }

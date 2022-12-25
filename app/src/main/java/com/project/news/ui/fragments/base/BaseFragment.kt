@@ -9,21 +9,22 @@ import com.project.news.R
 import com.project.news.db.ArticleDatabase
 import com.project.news.ui.activity.MainActivity
 import com.project.news.vm.NewsViewModel
+import javax.inject.Inject
 
-/*
+/**
 *  Re-initialization already from already initialized members from activity, to access them in child fragments .
 */
 
 open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
 
     lateinit var newsViewModel: NewsViewModel
+    @Inject
     lateinit var articleDatabase: ArticleDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (!(this::newsViewModel.isInitialized && this::articleDatabase.isInitialized)) {
-            newsViewModel = (requireActivity() as MainActivity).getViewModels()
-            articleDatabase = (requireActivity() as MainActivity).getDataBase()
+            newsViewModel = (requireActivity() as MainActivity).newsViewModel
         }
     }
 
