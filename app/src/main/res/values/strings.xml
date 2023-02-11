@@ -26,4 +26,9 @@
     <string name="article">Article</string>
     <string name="update_message">News Updated Successfully</string>
     <string name="description">DESCRIPTION</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="day_theme">Day Theme</string>
+    <string name="themes">Themes</string>
 </resources>

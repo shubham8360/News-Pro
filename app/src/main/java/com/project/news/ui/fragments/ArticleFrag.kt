@@ -14,7 +14,7 @@ import com.project.news.ui.fragments.base.BaseFragment
 /**
  * Loads article on webView from news url<field in Article> .
  * on saving article it will insert data in room database <article_db.db> .
-*/
+ */
 class ArticleFrag : BaseFragment(R.layout.fragment_article) {
     private lateinit var binding: FragmentArticleBinding
     private val args: ArticleFragArgs by navArgs()
@@ -33,6 +33,8 @@ class ArticleFrag : BaseFragment(R.layout.fragment_article) {
         binding.webView.apply {
             webViewClient = WebViewClient()
             loadUrl(article.url)
+            settings.loadsImagesAutomatically = true
+            isClickable = true
         }
 
         binding.fab.setOnClickListener {
@@ -41,8 +43,25 @@ class ArticleFrag : BaseFragment(R.layout.fragment_article) {
                 binding.fab,
                 getString(R.string.saved_success_message),
                 Snackbar.LENGTH_SHORT
-            ).show()
+            ).setAnchorView(binding.fab).show()
 
+        }
+        binding.webView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY -> // the delay of the extension of the FAB is set for 12 items
+            val extendedFloatingActionButton = binding.fab
+            if (scrollY > oldScrollY + 12 && extendedFloatingActionButton.isExtended) {
+                extendedFloatingActionButton.shrink()
+            }
+
+            // the delay of the extension of the FAB is set for 12 items
+            if (scrollY < oldScrollY - 12 && !extendedFloatingActionButton.isExtended) {
+                extendedFloatingActionButton.extend()
+            }
+
+            // if the nestedScrollView is at the first item of the list then the
+            // extended floating action should be in extended state
+            if (scrollY == 0) {
+                extendedFloatingActionButton.extend()
+            }
         }
     }
 

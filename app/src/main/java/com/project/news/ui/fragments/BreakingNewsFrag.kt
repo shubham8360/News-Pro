@@ -5,32 +5,67 @@ import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StableIdKeyProvider
+import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.news.R
-import com.project.news.adapters.NewsAdapter
+import com.project.news.constants.Constants
 import com.project.news.constants.Constants.Companion.COUNTRY_CODE_CONST
 import com.project.news.constants.Constants.Companion.QUERY_PAGE_SIZE
 import com.project.news.constants.Resource
 import com.project.news.databinding.FragmentBreakingNewsBinding
 import com.project.news.ui.fragments.base.BaseFragment
+import com.project.news.utils.MyItemDetailsLookup
 
 /**
-* Fetches and list top 20 news from first page, on scroll fetches again 20 news from next page, pagination concept implemented.
-*/
+ * Fetches and list top 20 news from first page, on scroll fetches again 20 news from next page, pagination concept implemented.
+ */
+private const val TAG = "BreakingNewsFrag"
+
 class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
 
     private lateinit var binding: FragmentBreakingNewsBinding
-    private val adapter: NewsAdapter by lazy { NewsAdapter() }
-    private val mTAG = "BreakingNewsFrag"
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBreakingNewsBinding.bind(view)
         setUpRecyclerView()
+        setUpSelectionTracker()
         observers()
     }
+
+    private fun setUpSelectionTracker() {
+        adapter.tracker = SelectionTracker.Builder(
+            Constants.SELECTION_ID,
+            binding.rv,
+            StableIdKeyProvider(binding.rv),
+            MyItemDetailsLookup(binding.rv),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(SelectionPredicates.createSelectAnything()).build()
+
+        adapter.tracker?.addObserver(object : SelectionTracker.SelectionObserver<Long>() {
+            override fun onSelectionChanged() {
+                super.onSelectionChanged()
+                val items = adapter.tracker!!.selection.size()
+                if (items > 0) {
+                    enableSelection(true)
+                    toolbar?.title = items.toString()
+                } else {
+                    enableSelection(false)
+                }
+            }
+        })
+    }
+
+    override fun onStart() {
+        fragment = getString(R.string.breaking_news)
+        super.onStart()
+    }
+
+
 
     private fun observers() {
         newsViewModel.getBreakingNews().observe(viewLifecycleOwner) { response ->
@@ -38,7 +73,7 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
                 is Resource.Success -> {
                     hideProgress()
                     response.data?.let {
-                        adapter.asyncList.submitList(it.articles.toList())
+                        adapter.submitList(it.articles)
                         val totalPage = it.totalResults
                         isLastPage = newsViewModel.getBreakingNewsPage() == totalPage
                     }
@@ -46,7 +81,7 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
                 is Resource.Error -> {
                     hideProgress()
                     response.message?.let { message ->
-                        Log.e(mTAG, "observers: $message")
+                        Log.e(TAG, "observers: $message")
                     }
                 }
                 is Resource.Loading -> {
@@ -59,13 +94,19 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
 
     private fun setUpRecyclerView() {
         binding.rv.adapter = adapter
-        binding.rv.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-        binding.rv.addOnScrollListener(this@BreakingNewsFrag.scrollListener)
+        binding.rv.apply {
+            addItemDecoration(
+                DividerItemDecoration(
+                    requireContext(),
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+            addOnScrollListener(this@BreakingNewsFrag.scrollListener)
+        }
         adapter.onItemClickListener = {
             val action = BreakingNewsFragDirections.actionBreakingNewsFragToArticleFrag(it)
             findNavController().navigate(action)
         }
-
     }
 
     private fun showProgress() {
@@ -89,6 +130,7 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
                 isScrolling = true
             }
         }
+
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             super.onScrolled(recyclerView, dx, dy)
             val layoutManager = binding.rv.layoutManager as LinearLayoutManager
@@ -101,7 +143,8 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
             val isNotAtBeginning = firstVisibleItemPosition >= 0
             val isTotalMoreThanVisible = totalItemCount >= QUERY_PAGE_SIZE
 
-            val shouldPaginate = isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
+            val shouldPaginate =
+                isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning && isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
                 newsViewModel.loadBreakingNews(COUNTRY_CODE_CONST)
                 isScrolling = false
@@ -110,6 +153,5 @@ class BreakingNewsFrag : BaseFragment(R.layout.fragment_breaking_news) {
             }
         }
     }
-
 
 }

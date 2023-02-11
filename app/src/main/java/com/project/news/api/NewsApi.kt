@@ -6,7 +6,7 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-/*
+/**
 * NewsApi contains all @GET, @POST @QUERY requests to request to server.
 * Each request must have api key as parameter to request
 * */

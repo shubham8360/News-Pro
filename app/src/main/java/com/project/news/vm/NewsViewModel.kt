@@ -12,20 +12,25 @@ import com.project.news.constants.Resource
 import com.project.news.models.Article
 import com.project.news.models.NewsResponse
 import com.project.news.repository.NewsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okio.IOException
 import retrofit2.Response
+import javax.inject.Inject
 
 /**
-* Instead of ViewModel() extend with AndroidViewModel which is extended version that can hold applicationContext.
-* LiveData is used to observe changes in the data , so that subscribers will get notify about changes.
-* Encapsulation achieved by declaring all field and methods as private, and provided getter methods.
-* Common NetworkCallback listener, provides live changes when connection establish or gone.
- code by shubham kumar
-* */
+ * Instead of ViewModel() extend with AndroidViewModel which is extended version that can hold applicationContext.
+ * LiveData is used to observe changes in the data , so that subscribers will get notify about changes.
+ * Encapsulation achieved by declaring all field and methods as private, and provided getter methods.
+ * Common NetworkCallback listener, provides live changes when connection establish or gone.
+code by shubham kumar
+ * */
 
-
-class NewsViewModel(app: Application, private val newsRepository: NewsRepository) : AndroidViewModel(app) {
+@HiltViewModel
+class NewsViewModel @Inject constructor(
+    app: Application,
+    private val newsRepository: NewsRepository
+) : AndroidViewModel(app) {
 
     private val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     fun getBreakingNews() = breakingNews
@@ -63,7 +68,8 @@ class NewsViewModel(app: Application, private val newsRepository: NewsRepository
             .build()
 
         initializeNetworkCallback()
-        val connectivityManager = app.getSystemService(ConnectivityManager::class.java) as ConnectivityManager
+        val connectivityManager =
+            app.getSystemService(ConnectivityManager::class.java) as ConnectivityManager
         connectivityManager.requestNetwork(networkRequest, networkCallback)
     }
 
@@ -141,6 +147,16 @@ class NewsViewModel(app: Application, private val newsRepository: NewsRepository
 
     fun deleteNews(article: Article) = viewModelScope.launch {
         newsRepository.deleteNews(article)
+    }
+
+    fun deleteListOfNews(list: ArrayList<Article>) = viewModelScope.launch {
+        newsRepository.deleteListOfArticles(list)
+    }
+
+    suspend fun insertAll(list: ArrayList<Article>) {
+        viewModelScope.launch {
+            newsRepository.insertAll(list)
+        }
     }
 
     private fun initializeNetworkCallback() {

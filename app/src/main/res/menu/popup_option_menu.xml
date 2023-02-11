@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <group
+        android:id="@+id/search_container"
+        android:visible="false">
+        <item
+            android:id="@+id/search_button"
+            android:icon="@drawable/ic_search"
+            android:title="@string/search_here"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"
+            app:showAsAction="ifRoom" />
+    </group>
+
+    <group
+        android:id="@+id/selection_type"
+        android:visible="false">
+        <item
+            android:id="@+id/cancel"
+            android:icon="@drawable/ic_cancel"
+            android:title="@string/cancel"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="always" />
+        <item
+            android:id="@+id/save"
+            android:icon="@drawable/ic_check"
+            android:title="@string/cancel"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="always" />
+    </group>
+    <group
+        android:id="@+id/selection_delete"
+        android:visible="false">
+        <item
+            android:id="@+id/delete"
+            android:icon="@drawable/ic_delete"
+            android:title="@string/cancel"
+            app:iconTint="?attr/colorControlNormal"
+            app:showAsAction="ifRoom"
+            tools:iconTint="@color/white" />
+    </group>
+    <item
+        android:id="@+id/themes"
+        android:icon="@drawable/ic_themes"
+        android:title="@string/themes"
+        app:showAsAction="never">
+        <menu>
+            <item
+                android:id="@+id/dark_theme"
+                android:icon="@drawable/ic_themes"
+                android:title="@string/dark_theme"
+                app:iconTint="?attr/colorControlNormal" />
+            <item
+                android:id="@+id/day_theme"
+                android:icon="@drawable/ic_day"
+                android:title="@string/day_theme"
+                app:iconTint="?attr/colorControlNormal" />
+        </menu>
+    </item>
+
+</menu>

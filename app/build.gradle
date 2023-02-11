@@ -6,6 +6,7 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -20,6 +21,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        archivesBaseName = "News-${versionName}-${new Date().format('yyMMdd')}"
+
     }
 
     buildTypes {
@@ -43,20 +46,20 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
-    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-crashlytics'
     implementation 'com.google.firebase:firebase-analytics'
 
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     //sdp
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
@@ -90,6 +93,22 @@ dependencies {
     //lottie anim
     implementation "com.airbnb.android:lottie:$lottie_version"
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
+
+    //hilt-dagger
+    implementation("com.google.dagger:hilt-android:2.44.2")
+    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
+
+    //recyclerview selection
+    implementation 'androidx.recyclerview:recyclerview-selection:1.1.0'
+
+    //datastore
+    implementation 'androidx.datastore:datastore-preferences:1.1.0-alpha01'
+
+    //web socket okhttp3
+    implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
+
+    //pie socket
+//    implementation("com.piesocket:channels-sdk:1.0.4")
 
 
 }

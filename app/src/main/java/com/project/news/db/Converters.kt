@@ -4,9 +4,9 @@ import androidx.room.TypeConverter
 import com.project.news.models.Source
 
 
-/*
-* Type Converts to help sql to store non-primitive type data.
-*/
+/**
+ * Type Converts to help sql to store non-primitive type data.
+ */
 class Converters {
     @TypeConverter
     fun sourceToString(source: Source): String {
@@ -17,4 +17,5 @@ class Converters {
     fun stringToSource(name: String): Source {
         return (Source(name, name))
     }
+
 }
