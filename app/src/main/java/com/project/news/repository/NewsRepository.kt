@@ -32,5 +32,4 @@ class NewsRepository @Inject constructor(
 
     suspend fun insertAll(list: ArrayList<Article>) = db.getArticleDao().insertAll(list)
 
-    suspend fun getCount(url: String) = db.getArticleDao().getCount(url)
 }

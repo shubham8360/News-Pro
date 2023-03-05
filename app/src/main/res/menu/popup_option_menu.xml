@@ -57,6 +57,11 @@
                 android:icon="@drawable/ic_day"
                 android:title="@string/day_theme"
                 app:iconTint="?attr/colorControlNormal" />
+            <item
+                android:id="@+id/system_theme"
+                android:icon="@drawable/ic_system_theme_icon"
+                android:title="@string/system_default"
+                app:iconTint="?attr/colorControlNormal" />
         </menu>
     </item>
 

@@ -1,16 +1,16 @@
 package com.project.news.ui.fragments.base
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.project.news.R
 import com.project.news.adapters.NewsAdapter
-import com.project.news.constants.Constants
 import com.project.news.db.ArticleDatabase
 import com.project.news.models.Article
 import com.project.news.ui.activity.MainActivity
@@ -28,24 +28,18 @@ import javax.inject.Inject
 open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
 
     var btmNav: BottomNavigationView? = null
-    lateinit var newsViewModel: NewsViewModel
 
+    val newsViewModel: NewsViewModel by activityViewModels()
     val adapter: NewsAdapter by lazy { NewsAdapter() }
 
     @Inject
     lateinit var articleDatabase: ArticleDatabase
-
-
-    private val sharedPreferences: SharedPreferences by lazy { (requireActivity() as MainActivity).sharedPreferences }
 
     var toolbar: MaterialToolbar? = null
     var fragment: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (!(this::newsViewModel.isInitialized && this::articleDatabase.isInitialized)) {
-            newsViewModel = (requireActivity() as MainActivity).newsViewModel
-        }
     }
 
     override fun onStart() {
@@ -100,18 +94,15 @@ open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
                     true
                 }
                 R.id.dark_theme -> {
-                    /*    sharedPreferences.edit().putBoolean(Constants.THEME, true).apply()
-                        activity?.theme?.applyStyle(R.style.Theme_dark, true)
-                        activity?.application?.theme?.applyStyle(R.style.Theme_dark, true)
-                        activity?.recreate()*/
-                    /*  Toast.makeText(requireContext(), "Not yet implemented", Toast.LENGTH_SHORT)
-                          .show()*/
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                     true
                 }
                 R.id.day_theme -> {
-                    sharedPreferences.edit().putBoolean(Constants.THEME, false).apply()
-                    Toast.makeText(requireContext(), "Not yest implemented ", Toast.LENGTH_SHORT)
-                        .show()
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                    true
+                }
+                R.id.system_theme -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
                     true
                 }
                 else -> false

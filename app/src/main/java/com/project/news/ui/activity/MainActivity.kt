@@ -3,23 +3,17 @@ package com.project.news.ui.activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.color.DynamicColors
 import com.project.news.R
-import com.project.news.constants.Constants.Companion.WEB_SOCKET_URL
 import com.project.news.databinding.ActivityMainBinding
-import com.project.news.utils.WebSocketImpl
 import com.project.news.vm.NewsViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 /**
@@ -33,8 +27,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity() {
 
     private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val _newsViewModel: NewsViewModel by lazy { ViewModelProvider(this)[NewsViewModel::class.java] }
-    val newsViewModel: NewsViewModel get() = _newsViewModel
+    private val _newsViewModel: NewsViewModel by viewModels()
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -47,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         binding.containerMain.btmNav.setupWithNavController(findNavController(R.id.nav_host_fragment_content_main))
         setUpActionBar()
         networkAvailabilitySetup()
-        start()
     }
 
     private fun setUpActionBar() {
@@ -79,30 +71,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun dummy() {
-        val pattern = Pattern.compile("ab")
-        val matcher = pattern.matcher("afndjsf dsjsf")
-        val dummy = "helllo world"
-        dummy.replace("\\s", "*")
-        while (matcher.find()) {
-            println(matcher.start())
-            println(matcher.end())
-            println(matcher.group())
-        }
-    }
-
-    private fun start() {
-        val request = Request.Builder().url(WEB_SOCKET_URL).build()
-        val webSocketImpl = WebSocketImpl()
-        val client=OkHttpClient()
-        val webSocket = client.newWebSocket(request, webSocketImpl)
-        client.dispatcher.executorService.shutdown()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(60000)
-            withContext(Dispatchers.Main){
-                webSocket.close(1000,"Connection closed after 1 minute")
-            }
-        }
-    }
 }

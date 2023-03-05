@@ -1,7 +1,5 @@
 package com.project.news.utils
 
-import android.content.Context
-import android.content.res.Configuration
 import android.view.MotionEvent
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +17,3 @@ class MyItemDetailsLookup(private val recyclerView: RecyclerView) : ItemDetailsL
 
 }
 
-object Utils {
-    fun isNightMode(context: Context): Boolean {
-        val nightModeFlags: Int =
-            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
-        return nightModeFlags == Configuration.UI_MODE_NIGHT_YES
-    }
-}

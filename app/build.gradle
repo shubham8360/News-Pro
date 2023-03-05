@@ -23,6 +23,12 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         archivesBaseName = "News-${versionName}-${new Date().format('yyMMdd')}"
 
+       /* javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }*/
+
     }
 
     buildTypes {
@@ -46,8 +52,8 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
@@ -68,21 +74,21 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.14.2'
 
     //room
-    implementation("androidx.room:room-runtime:$room_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    implementation("androidx.room:room-runtime:2.5.0")
+    annotationProcessor("androidx.room:room-compiler:2.5.0")
 
     //kapt annotation
-    kapt "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:2.5.0"
 
     // coroutines support for Room
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation("androidx.room:room-ktx:2.5.0")
 
     //splash
     implementation 'androidx.core:core-splashscreen:1.0.0'
 
     //retrofit
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
 
     //logging interceptor
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
@@ -91,7 +97,7 @@ dependencies {
     implementation 'com.github.xabaras:RecyclerViewSwipeDecorator:1.4'
 
     //lottie anim
-    implementation "com.airbnb.android:lottie:$lottie_version"
+    implementation "com.airbnb.android:lottie:5.2.0"
     implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
     //hilt-dagger
@@ -106,9 +112,6 @@ dependencies {
 
     //web socket okhttp3
     implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.2")
-
-    //pie socket
-//    implementation("com.piesocket:channels-sdk:1.0.4")
 
 
 }
