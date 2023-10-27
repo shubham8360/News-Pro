@@ -58,7 +58,7 @@ class NewsAdapter @Inject constructor() :
                     override fun onLoadFailed(
                         e: GlideException?,
                         model: Any?,
-                        target: Target<Drawable>?,
+                        target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
                         binding.progress.visibility = View.GONE
@@ -66,14 +66,13 @@ class NewsAdapter @Inject constructor() :
                     }
 
                     override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
+                        resource: Drawable,
+                        model: Any,
                         target: Target<Drawable>?,
-                        dataSource: DataSource?,
+                        dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
                         binding.progress.visibility = View.GONE
-
                         return false
                     }
 

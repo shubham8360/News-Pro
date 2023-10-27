@@ -58,4 +58,8 @@
             app:popEnterAnim="@anim/to_right"
             />
     </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.project.news.ui.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

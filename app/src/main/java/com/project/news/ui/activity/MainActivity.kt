@@ -2,7 +2,8 @@ package com.project.news.ui.activity
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -62,11 +63,15 @@ class MainActivity : AppCompatActivity() {
     private fun networkAvailabilitySetup() {
         _newsViewModel.getConnectivity().observe(this) {
             if (it) {
-                binding.containerLostConnection.root.visibility = View.GONE
-                binding.containerMain.root.visibility = View.VISIBLE
+                binding.apply{
+                    containerLostConnection.root.visibility = GONE
+                    containerMain.root.visibility = VISIBLE
+                }
             } else {
-                binding.containerLostConnection.root.visibility = View.VISIBLE
-                binding.containerMain.root.visibility = View.GONE
+                binding.apply{
+                    containerLostConnection.root.visibility = VISIBLE
+                    containerMain.root.visibility = GONE
+                }
             }
         }
     }

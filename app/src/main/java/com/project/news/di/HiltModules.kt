@@ -2,6 +2,7 @@ package com.project.news.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import androidx.room.Room
 import com.project.news.api.NewsApi
 import com.project.news.constants.Constants
@@ -29,6 +30,11 @@ class HiltModules {
             ::class.java, Constants.DATABASE
         ).build()
     }
+    @Provides
+    @Singleton
+    fun provideSharedPreferences(@ApplicationContext appContext: Context): SharedPreferences =
+        PreferenceManager.getDefaultSharedPreferences(appContext)
+
 
     @Singleton
     @Provides
@@ -36,11 +42,7 @@ class HiltModules {
         return retrofit.create(NewsApi::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun getSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("default", Context.MODE_PRIVATE)
-    }
+
 
     @Singleton
     @Provides

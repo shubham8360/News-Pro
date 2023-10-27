@@ -1,11 +1,10 @@
 package com.project.news.ui.fragments.base
 
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
@@ -38,10 +37,6 @@ open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
     var toolbar: MaterialToolbar? = null
     var fragment: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onStart() {
         super.onStart()
         btmNav =
@@ -62,6 +57,7 @@ open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
                     adapter.tracker?.clearSelection()
                     true
                 }
+
                 R.id.save -> {
                     CoroutineScope(Dispatchers.IO).launch {
                         val tempList = adapter.tracker?.selection?.map {
@@ -80,6 +76,7 @@ open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
                     }
                     true
                 }
+
                 R.id.delete -> {
                     val tempList =
                         adapter.tracker?.selection?.map { adapter.currentList[it.toInt()] }
@@ -93,18 +90,13 @@ open class BaseFragment(contentLayoutId: Int) : Fragment(contentLayoutId) {
                     adapter.tracker?.clearSelection()
                     true
                 }
-                R.id.dark_theme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+
+                R.id.settings -> {
+                    findNavController().navigate(R.id.settingsFragment)
                     true
                 }
-                R.id.day_theme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    true
-                }
-                R.id.system_theme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    true
-                }
+
                 else -> false
             }
         }
